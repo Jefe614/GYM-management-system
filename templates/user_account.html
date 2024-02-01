@@ -1,0 +1,12 @@
+<!-- user_account.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1>User Account</h1>
+        <!-- Add user account information or settings here -->
+        <p>Welcome, {{ user.username }}!</p>
+        <p>Email: {{ user.email }}</p>
+        <!-- Add more user-related information as needed -->
+    </div>
+{% endblock %}

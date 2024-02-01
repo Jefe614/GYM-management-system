@@ -6,7 +6,7 @@ from imagekit.processors import ResizeToFill
 class Service(models.Model):
     title = models.CharField(max_length=50)
     detail = models.TextField(max_length=200)
-    service_image = models.ImageField(upload_to='media', blank=True, null=True)
+    image = models.ImageField(upload_to='media', blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -15,8 +15,8 @@ class ServiceDetails(models.Model):
     service = models.OneToOneField(Service, on_delete=models.CASCADE)
     additional_info = models.TextField(max_length=500)
     
-    service_image_thumbnail = ImageSpecField(
-        source='service_image',
+    thumbnail = ImageSpecField(
+        source='image',
         processors=[ResizeToFill(300, 300)],
         format='JPEG',
         options={'quality': 100}
@@ -33,7 +33,7 @@ class Image(models.Model):
 
     thumbnail = ImageSpecField(
         source='image',
-        processors=[ResizeToFill(300, 300)],
+        processors=[ResizeToFill(150, 150)],
         format='JPEG',
         options={'quality': 100}
     )

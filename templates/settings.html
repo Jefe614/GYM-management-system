@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1>Account Settings</h1>
+
+        <!-- Form for user settings -->
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Display any form errors here -->
+            {% if form.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+
+            <!-- Display a success message if applicable -->
+            {% if success_message %}
+                <div class="alert alert-success" role="alert">
+                    {{ success_message }}
+                </div>
+            {% endif %}
+
+            <!-- Form fields for user settings -->
+            {{ form.as_p }}
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
+{% endblock %}
