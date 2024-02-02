@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
-from .models import Image, Service, ServiceDetails
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Image, Service, ServiceDetails, Trainer
 from django.contrib.auth.decorators import login_required
-from .forms import ProfileEditForm, UserSettingsForm
-from django.contrib.auth import logout
+from .forms import ProfileEditForm, UserSettingsForm, TrainerForm
+from django.contrib.auth import logout, login
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 # Create your views here.
 
 def home(request):
@@ -56,3 +58,92 @@ def settings(request):
 def custom_logout(request):
     logout(request)
     return redirect('home')     
+
+def trainer_list(request):
+    trainers = Trainer.objects.all()
+    return render(request, 'trainer_list.html', {'trainers': trainers})
+
+def is_admin(user):
+    return user.is_authenticated and user.is_staff  
+@user_passes_test(is_admin)
+def trainer_create(request):
+    if request.method == 'POST':
+        form = TrainerForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('trainer_list')
+    else:
+        form = TrainerForm()
+    return render(request, 'trainer_form.html', {'form': form, 'action': 'Create'})
+
+
+def trainer_detail(request, pk):
+    trainer = get_object_or_404(Trainer, pk=pk)
+    return render(request, 'trainer_detail.html', {'trainer': trainer})
+
+
+# views.py
+def is_admin(user):
+    return user.is_authenticated and user.is_staff
+@user_passes_test(is_admin)
+def trainer_update(request, pk):
+    trainer = get_object_or_404(Trainer, pk=pk)
+    if request.method == 'POST':
+        form = TrainerForm(request.POST, instance=trainer)
+        if form.is_valid():
+            form.save()
+            return redirect('trainer_detail', pk=pk)  # Redirect to trainer detail page
+    else:
+        form = TrainerForm(instance=trainer)
+    return render(request, 'trainer_update.html', {'form': form, 'trainer': trainer})
+
+def is_admin(user):
+    return user.is_authenticated and user.is_staff
+@user_passes_test(is_admin)
+def trainer_delete(request, pk):
+    trainer = get_object_or_404(Trainer, pk=pk)
+    if request.method == 'POST':
+        trainer.delete()
+        return redirect('trainer_list')  # Redirect to trainer list page
+    return render(request, 'trainer_delete.html', {'trainer': trainer})
+
+def is_admin(user):
+    return user.is_authenticated and user.is_staff
+@user_passes_test(is_admin)
+def trainer_update(request, pk):
+    trainer = get_object_or_404(Trainer, pk=pk)
+    if request.method == 'POST':
+        form = TrainerForm(request.POST, request.FILES, instance=trainer)
+        if form.is_valid():
+            form.save()
+            return redirect('trainer_detail', pk=pk)  # Redirect to trainer detail page
+    else:
+        form = TrainerForm(instance=trainer)
+    return render(request, 'trainer_update.html', {'form': form, 'trainer': trainer})
+
+
+#login registration views
+# 
+
+def user_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')  # Redirect to the home page or another desired page
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Log in the user after registration
+            return redirect('login')  # Redirect to the home page or another desired page
+    else:
+        form = UserCreationForm()
+    return render(request, 'register.html', {'form': form})        

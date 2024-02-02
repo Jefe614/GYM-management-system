@@ -1,0 +1,15 @@
+<!-- trainer_detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{{ trainer.name }} Details</h2>
+
+  {% if trainer.image %}
+    <img src="{{ trainer.image.url }}" alt="{{ trainer.name }} Image">
+  {% endif %}
+
+  <p><strong>Expertise:</strong> {{ trainer.expertise }}</p>
+  <p><strong>Description:</strong> {{ trainer.description }}</p>
+
+  <a href="{% url 'trainer_list' %}">Back to Trainer List</a>
+{% endblock %}

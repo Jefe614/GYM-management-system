@@ -2,6 +2,7 @@
 from django import forms
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.models import User
+from .models import Trainer
 
 class ProfileEditForm(UserChangeForm):
     class Meta:
@@ -25,3 +26,8 @@ class UserSettingsForm(forms.ModelForm):
         self.fields['email'].widget.attrs['readonly'] = True  # Example: Make email field read-only
 
     # You can add validation or additional customization here if needed
+
+class TrainerForm(forms.ModelForm):
+    class Meta:
+        model = Trainer
+        fields = ['name', 'expertise', 'description', 'image']

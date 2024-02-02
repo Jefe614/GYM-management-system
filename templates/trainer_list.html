@@ -1,0 +1,31 @@
+<!-- trainer_list.html -->
+{% extends 'no_footer_base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2 class="mb-4">Trainer List</h2>
+
+    <div class="row">
+      {% for trainer in trainers %}
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            {% if trainer.image %}
+              <img src="{{ trainer.image.url }}" class="card-img-top" alt="{{ trainer.name }} Image">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ trainer.name }}</h5>
+              <p class="card-text">{{ trainer.expertise }}</p>
+              <p class="card-text">{{ trainer.description }}</p>
+              <a href="{% url 'trainer_detail' pk=trainer.pk %}" class="btn btn-primary">View Details</a>
+              <a href="{% url 'trainer_update' pk=trainer.pk %}" class="btn btn-secondary">Edit</a>
+              <a href="{% url 'trainer_delete' pk=trainer.pk %}" class="btn btn-danger">Delete</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <a href="#" class="btn btn-success mt-3">Add New Trainer</a>
+  </div>
+  <hr>
+{% endblock %}

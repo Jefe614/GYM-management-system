@@ -28,9 +28,9 @@
           {% for service in services %}
               <div class="col-md-4">
                   <div class="card">
-                      
-                    <img class="card-img-top" src="{{ image.thumbnail.url }}" alt="Card image cap">
-                     
+                    {% if service.image %}
+                    <img class="card-img-top" src="{{ service.image.url }}" alt="Card image cap">
+                     {% endif %}
                     <div class="card-body">
                       <h5 class="card-title">{{ service.title }}</h5>
                       <p class="card-text">{{ service.detail }}</p>
@@ -40,7 +40,8 @@
               </div>
           {% endfor %}
       </div>
-        <div class="about-container">
+      <hr>
+      <div class="about-container">
 
             <!-- About 1 - Bootstrap Brain Component -->
   <section class="py-3 py-md-5 py-xl-8">
@@ -93,4 +94,6 @@
   </section>
         </div>
   </div>
+  <hr>
   {% endblock %}
+ 

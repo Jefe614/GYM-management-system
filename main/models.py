@@ -41,3 +41,13 @@ class Image(models.Model):
 
     def __str__(self):
         return self.title
+
+class Trainer(models.Model):
+    name = models.CharField(max_length=50)
+    expertise = models.TextField(max_length=200)
+    description = models.TextField(max_length=200)
+    image = models.ImageField(blank=True, null=True, upload_to='media')
+
+    def __str__(self):
+        return self.name
+

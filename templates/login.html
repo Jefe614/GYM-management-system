@@ -1,0 +1,13 @@
+{% extends 'no_footer_base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2>Login</h2>
+    <form method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+    <p>Don't have an account? <a href="{% url 'register' %}">Create an account</a></p>
+  </div>
+{% endblock %}
