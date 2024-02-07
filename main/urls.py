@@ -19,5 +19,10 @@ urlpatterns = [
     path('trainer/<int:pk>/delete/',views.trainer_delete, name='trainer_delete'),
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),
+    path('get_started_basic/', views.basic_plan_page, name='basic_plan_page'),
+    path('get_started_pro/', views.get_started_pro, name='get_started_pro'),
+    path('get_started_premium/', views.get_started_premium, name='get_started_premium'),
+    path('basic_plan/', views.basic_plan, name='basic_plan'),
+    path('contact/', views.contact_form_submission, name='contact_form_submission'),
 
 ]

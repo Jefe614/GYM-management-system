@@ -1,0 +1,55 @@
+<!-- basic_plan.html -->
+
+{% extends 'no_footer_base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Basic Plan</h1>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Basic Plan Features</h5>
+                    <ul>
+                        <li>Access to gym facilities during specified hours.</li>
+                        <li>Use of basic gym equipment such as treadmills, elliptical machines, and weightlifting equipment.</li>
+                        <li>Locker room and shower facilities.</li>
+                        <li>Access to group fitness classes (e.g., yoga, spin, aerobics) at no additional cost.</li>
+                        <li>Discounted rates on personal training sessions.</li>
+                        <li>Access to online workout tracking and progress monitoring tools.</li>
+                        <li>Nutritional guidance and meal planning resources.</li>
+                        <!-- Add more features as needed -->
+                    </ul>
+                    <div class="text-center mt-5">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <a href="#" class="btn btn-primary btn-lg">Start Your Fitness Journey Today</a>
+                                </div>
+                                <div class="col">
+                                    <a href="#" class="btn btn-secondary btn-lg">Explore Other Membership Options</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- PayPal Payment Button -->
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                        {% csrf_token %}
+                        <input type="hidden" name="cmd" value="_s-xclick">
+                        <input type="hidden" name="hosted_button_id" value="YOUR_HOSTED_BUTTON_ID">
+                        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online">
+                        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                    </form>
+                    <!-- M-Pesa Payment Button -->
+                    <form action="#" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-lg mt-3">Pay with M-Pesa</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+{% endblock %}

@@ -1,10 +1,14 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from .models import Image, Service, ServiceDetails, Trainer
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileEditForm, UserSettingsForm, TrainerForm
 from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib import messages
+from django.urls import reverse
+from django.core.mail import send_mail
+
 # Create your views here.
 
 def home(request):
@@ -146,4 +150,47 @@ def register(request):
             return redirect('login')  # Redirect to the home page or another desired page
     else:
         form = UserCreationForm()
-    return render(request, 'register.html', {'form': form})        
+    return render(request, 'register.html', {'form': form})    
+
+#pricing section
+def basic_plan_page(request):
+    if not request.user.is_authenticated:
+        messages.warning(request, 'You need to login to access this feature.')
+        return redirect('login') 
+    else:
+        messages.success(request, 'You have successfully subscribed to the Basic Plan!')
+        return redirect(reverse('basic_plan'))
+
+def basic_plan(request):
+    return render(request, 'basic_plan.html')        
+       
+
+def get_started_pro(request):
+    
+    return redirect('pro_plan_page') 
+
+def get_started_premium(request):
+   
+    return redirect('premium_plan_page')  
+
+
+#contact page submit button
+
+def contact_form_submission(request):
+    if request.method == 'POST':
+        # Process the form data here (e.g., save to database, send email)
+       
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+
+        # Send email notification
+        subject = 'New Contact Form Submission'
+        body = f'Name: {name}\nEmail: {email}\nMessage: {message}'
+        recipient_list = ['jeffkimani32@gmail.com']  
+        send_mail(subject, body, 'sender@example.com', recipient_list)
+
+        return HttpResponse('Form submitted successfully!')
+    else:
+        # If the request method is not POST, return an error response
+        return HttpResponse('Method not allowed', status=405)    
